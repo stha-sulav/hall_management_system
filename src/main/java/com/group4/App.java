@@ -8,13 +8,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.group4.lib.enums.Pages;
+
 import io.github.palexdev.materialfx.theming.JavaFXThemes;
 import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
 import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     private static Scene scene;
@@ -28,7 +27,7 @@ public class App extends Application {
                 .setResolveAssets(true)
                 .build()
                 .setGlobal();
-        scene = new Scene(loadFXML("hello"));
+        scene = new Scene(loadFXML(Pages.Login.getPage()));
         stage.setScene(scene);
         stage.show();
     }

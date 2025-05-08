@@ -1,0 +1,13 @@
+com\group4\controller\HelloController.class
+com\group4\lib\data\SimpleFileORM$Column.class
+com\group4\lib\data\SimpleFileORM$Predicate.class
+com\group4\lib\data\SimpleFileORM$EntityMetadata.class
+com\group4\lib\data\SimpleFileORM$ORMException.class
+com\group4\lib\data\SimpleFileORM.class
+com\group4\lib\enums\Pages.class
+com\group4\lib\data\SimpleFileORM$Function.class
+com\group4\lib\data\SimpleFileORM$Id.class
+com\group4\lib\data\SimpleFileORM$Entity.class
+module-info.class
+com\group4\lib\enums\UserRole.class
+com\group4\App.class
