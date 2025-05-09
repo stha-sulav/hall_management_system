@@ -1,0 +1,88 @@
+/* src/main/resources/com/group4/styles/menu.css */
+
+/* Styles specific to the menu view layout and components */
+
+.menu-pane {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: -my-color-surface;
+  -fx-padding: 10px;
+  -fx-spacing: 10px;
+  /* Optional: Add border or shadow */
+  /* -fx-border-color: -my-color-border; */
+  /* -fx-border-width: 0 1 0 0; /* Right border */
+}
+
+.menu-button {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: transparent;
+  -fx-text-fill: -my-color-text-primary;
+  -fx-alignment: CENTER_LEFT;
+  -fx-pref-width: 150px;
+  -fx-padding: 8px 15px;
+  -fx-background-radius: 5;
+  -fx-cursor: hand;
+}
+
+.menu-button:hover {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: derive(-my-color-surface, 10%);
+  -fx-text-fill: -my-color-accent-bg;
+}
+
+.menu-button.active {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: -my-color-accent-bg;
+  -fx-text-fill: -my-color-accent-text;
+  -fx-font-weight: bold;
+}
+
+.menu-button-logout {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: transparent;
+  -fx-text-fill: red; /* Or a specific error/danger color variable */
+  -fx-alignment: CENTER_LEFT;
+  -fx-pref-width: 150px;
+  -fx-padding: 8px 15px;
+  -fx-background-radius: 5;
+  -fx-cursor: hand;
+}
+
+.menu-button-logout:hover {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: derive(-my-color-surface, 10%);
+  -fx-text-fill: darkred; /* Or a darker shade */
+}
+
+.theme-toggle-button {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: transparent;
+  -fx-text-fill: -my-color-text-secondary;
+  -fx-border-color: transparent;
+  -fx-underline: true;
+  -fx-cursor: hand;
+  -fx-font-size: 12px;
+  -fx-alignment: CENTER;
+}
+
+/* Add styles for icons if you use FontIcon */
+.font-icon {
+  /* Example: Style for all FontIcons */
+  -fx-fill: -my-color-text-primary; /* Default icon color */
+}
+
+.menu-button .font-icon {
+  /* Example: Icon color within menu buttons */
+  -fx-fill: -my-color-text-primary;
+}
+
+.menu-button:hover .font-icon {
+  /* Example: Icon color on menu button hover */
+  -fx-fill: -my-color-accent-bg;
+}
+
+.menu-button-logout .font-icon {
+  /* Example: Icon color for logout button */
+  -fx-fill: red;
+}
+
+/* ... add more specific styles here for the menu view ... */

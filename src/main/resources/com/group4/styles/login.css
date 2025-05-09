@@ -1,0 +1,32 @@
+/* src/main/resources/com/group4/styles/login.css */
+
+/* Styles specific to the login view layout and components */
+
+.login-card {
+  /* Use semantic colors defined in global.css */
+  -fx-background-color: -my-color-surface;
+  -fx-background-radius: 10;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
+  -fx-padding: 20px;
+}
+
+.title-label {
+  /* Use semantic colors defined in global.css */
+  -fx-text-fill: -my-color-text-primary;
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-padding: 0 0 20px 0;
+}
+
+.error-message-label {
+  /* Use semantic colors defined in global.css */
+  -fx-text-fill: -my-color-error-text;
+  -fx-font-size: 12px;
+  -fx-padding: 10px 0;
+  -fx-max-width: infinity;
+  -fx-wrap-text: true;
+}
+
+/* You can add more specific styles here that only apply to the login screen */
+/* For example, if you had a specific image or background for the login screen */
+/* .login-background-pane { -fx-background-image: url("..."); } */

@@ -1,0 +1,144 @@
+/* src/main/resources/com/group4/styles/global.css */
+
+/* =================================== */
+/* Light Theme Variables (Default)     */
+/* (Your original light palette)       */
+/* =================================== */
+.root {
+  /* Palette Colors */
+  -my-palette-primary-dark: #1d3469;
+  -my-palette-primary: #3d5c95;
+  -my-palette-secondary: #405e96;
+  -my-palette-accent: #5e80bf;
+  -my-palette-light: #adaeb1;
+
+  /* Semantic Colors - Used in component styles */
+  -my-color-background: white; /* Standard background for light theme */
+  -my-color-surface: derive(-my-color-background, -5%); /* Cards, panels etc. */
+  -my-color-text-primary: black; /* Main text color */
+  -my-color-text-secondary: gray; /* Less prominent text */
+  -my-color-button-bg: -my-palette-primary; /* Default button color */
+  -my-color-button-text: white;
+  -my-color-accent-bg: -my-palette-accent; /* Accent button color */
+  -my-color-accent-text: white;
+  -my-color-border: lightgray; /* Example border color */
+  -my-color-error-text: red; /* Error text color */
+
+  /* Optional: Override standard JavaFX or MaterialFX variables */
+  /* -mfx-primary: -my-palette-primary; */
+  /* -fx-base: -my-color-background; */
+  /* -fx-text-base-color: -my-color-text-primary; */
+}
+
+/* =================================== */
+/* Dark Theme Overrides                */
+/* (Your additional dark palette)      */
+/* =================================== */
+.root.dark {
+  /* You can keep the original palette colors or adjust for dark mode if needed */
+  /* -my-palette-primary-dark: #1d3469; */
+  /* ... rest of palette colors ... */
+
+  /* New Dark Theme Semantic Colors */
+  -my-color-background: #18191a; /* Very dark grey for background */
+  -my-color-surface: #242526; /* Slightly lighter for cards/panels */
+  -my-color-text-primary: #e4e6eb; /* Very light grey for primary text */
+  -my-color-text-secondary: #b0b3b8; /* Medium light grey for secondary text */
+  -my-color-border: #3a3b3c; /* Medium dark grey for borders/dividers */
+  -my-color-error-text: #ff6b6b; /* Error text color for dark theme */
+
+  /* Re-map button/accent colors to work well with the dark background */
+  -my-color-button-bg: -my-palette-accent; /* Example: Use accent for buttons in dark */
+  -my-color-button-text: #18191a; /* Dark text on bright accent */
+
+  -my-color-accent-bg: -my-palette-primary; /* Example: Use primary for accent in dark */
+  -my-color-accent-text: #e4e6eb; /* Light text on primary */
+
+  /* ... other dark mode variable overrides ... */
+}
+
+/* =================================== */
+/* Component Styling                   */
+/* (These rules use the semantic variables) */
+/* =================================== */
+/* The values adapt based on the theme class (.dark) applied to .root */
+
+.label {
+  -fx-text-fill: -my-color-text-primary;
+}
+
+/* Style the login card container */
+.login-card {
+  -fx-background-color: -my-color-surface; /* Use the surface color variable */
+  -fx-background-radius: 10; /* Rounded corners */
+  -fx-effect: dropshadow(
+    gaussian,
+    rgba(0, 0, 0, 0.2),
+    10,
+    0,
+    0,
+    5
+  ); /* Subtle shadow */
+  -fx-padding: 20px; /* Add padding inside the card */
+}
+
+/* Style the title label */
+.title-label {
+  -fx-text-fill: -my-color-text-primary;
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-padding: 0 0 20px 0; /* Add space below title */
+}
+
+/* Style input fields (MaterialFX) */
+.mfx-text-field,
+.mfx-password-field {
+  -fx-text-fill: -my-color-text-primary; /* Main text color */
+  -fx-prompt-text-fill: -my-color-text-secondary; /* Prompt text color */
+  -fx-border-color: -my-color-border; /* Border color */
+  -fx-border-width: 0 0 1 0; /* Only bottom border */
+  -fx-background-color: transparent; /* Transparent background */
+  -fx-padding: 10px 0; /* Add some padding inside the field */
+  /* You might need to override MaterialFX specific variables like -mfx-main-text, -mfx-floating-text etc. */
+}
+
+/* Style the error message label */
+#errorMessageLabel {
+  /* Targeting by fx:id */
+  -fx-text-fill: -my-color-error-text;
+  -fx-font-size: 12px;
+  -fx-padding: 10px 0;
+  -fx-max-width: infinity; /* Allow label to take max width */
+  -fx-wrap-text: true; /* Allow text wrapping */
+}
+
+/* Style the login button (MaterialFX) */
+.mfx-button {
+  -fx-background-color: -my-color-button-bg;
+  -fx-text-fill: -my-color-button-text;
+  -fx-background-radius: 5;
+  -fx-pref-height: 40px;
+  -fx-font-size: 14px;
+  -fx-cursor: hand;
+  /* Add padding if needed: -fx-padding: 10px 20px; */
+}
+
+/* Style for optional link labels (Forgot Password, Sign Up) */
+.link-label {
+  -fx-text-fill: -my-color-accent-bg; /* Use accent color for links */
+  -fx-underline: true;
+  -fx-cursor: hand; /* Indicate it's clickable */
+  -fx-padding: 5px 0;
+}
+
+/* Style for the theme toggle button - using a specific class for robustness */
+.theme-toggle-button {
+  -fx-background-color: transparent;
+  -fx-text-fill: -my-color-text-secondary;
+  -fx-border-color: transparent;
+  -fx-underline: true;
+  -fx-cursor: hand;
+  -fx-font-size: 12px;
+}
+
+/* ... add more styles for other components as needed ... */

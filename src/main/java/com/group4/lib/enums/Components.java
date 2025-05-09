@@ -1,21 +1,20 @@
 package com.group4.lib.enums;
 
-public enum Pages {
-    Login("login"),
-    Signup("signup"),
+public enum Components {
+    Menu("menu"),
     Dashboard("dashboard"),
     Student("student"),
     Hall("hall"),
     Room("room"),
     Setting("setting");
 
-    private String view;
+    private String component;
 
-    Pages(String view) {
-        this.view = view;
+    Components(String component) {
+        this.component = component;
     }
 
     public String getPage() {
-        return view;
+        return component;
     }
 }
