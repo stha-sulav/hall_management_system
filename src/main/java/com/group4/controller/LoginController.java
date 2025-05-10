@@ -1,26 +1,30 @@
 package com.group4.controller;
 
-import com.group4.App; // Import your main App class for scene switching and theme toggling
-import com.group4.lib.enums.Pages;
+import com.group4.App; // Import your main App class for scene switching and ORM access
+import com.group4.lib.enums.Pages; // Import Pages enum for navigation
+import com.group4.lib.data.SimpleFileORM; // Import SimpleFileORM
+import com.group4.model.UserModel; // Import the User model
 
 import javafx.fxml.FXML;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
-import io.github.palexdev.materialfx.controls.MFXButton; // Import MFXButton if used in controller
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.scene.control.Label;
+import javafx.scene.control.Hyperlink; // Ensure this is imported
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.util.Optional;
 
 // Optional: Implement Initializable if you need to perform setup when the FXML is loaded
 // import javafx.fxml.Initializable;
 // import java.net.URL;
 // import java.util.ResourceBundle;
 
-// This controller handles the logic for the LoginView.fxml
+// This controller handles the logic for the login.fxml view
 // implements Initializable // Uncomment if using Initializable
 public class LoginController {
 
-    // FXML elements injected from LoginView.fxml
+    // FXML elements injected from login.fxml
     @FXML
     private MFXTextField usernameField;
 
@@ -31,102 +35,135 @@ public class LoginController {
     private Label errorMessageLabel;
 
     @FXML
-    private MFXButton loginButton; // Assuming you might need to disable/enable this button
+    private MFXButton loginButton;
+
+    // Ensure these are Hyperlink types and correctly linked via fx:id in FXML
+    @FXML
+    private Hyperlink signupButton;
+
+    @FXML
+    private Hyperlink forgotPasswordButton;
 
     // Optional: Initialization method - uncomment if implementing Initializable
     // @Override
     // public void initialize(URL url, ResourceBundle rb) {
     // // Code to run after all FXML elements are injected
-    // // For example, setting focus, adding listeners, etc.
     // errorMessageLabel.setVisible(false); // Hide error message initially
     // }
 
     /**
      * Handles the login button action.
-     * Retrieves username and password, performs basic validation,
-     * and calls a placeholder authentication method.
-     * 
+     * Retrieves username/email and password, performs validation,
+     * and attempts to authenticate against the user data file.
+     *
      * @param event The ActionEvent triggered by the button click.
      */
     @FXML
     private void handleLogin(ActionEvent event) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String usernameOrEmail = usernameField.getText().trim(); // Get text and trim whitespace
+        String password = passwordField.getText(); // Get password
 
         // Clear previous error message
         errorMessageLabel.setText("");
         errorMessageLabel.setVisible(false);
 
         // Basic Input Validation
-        if (username.isEmpty() || password.isEmpty()) {
-            errorMessageLabel.setText("Please enter both username and password.");
+        if (usernameOrEmail.isEmpty() || password.isEmpty()) {
+            errorMessageLabel.setText("Please enter username/email and password.");
             errorMessageLabel.setVisible(true);
             return; // Stop the login process
         }
 
-        // --- Placeholder Authentication Logic ---
-        // Replace this with your actual authentication service call
-        // This is where you would interact with your model or service layer
-        boolean loginSuccessful = checkCredentials(username, password);
+        // --- Authentication Logic using SimpleFileORM ---
+        try {
+            // Get the ORM instance from the App class
+            SimpleFileORM<UserModel> userORM = App.getUserORM();
 
-        if (loginSuccessful) {
-            System.out.println("Login Successful for user: " + username);
-            // --- Navigate to the next screen ---
-            try {
-                // Assuming you have a 'main' FXML file (e.g., MainView.fxml)
-                // and a corresponding loadFXML method in your App class
-                App.setRoot(Pages.Dashboard); // Call static method in App to change scene content
-            } catch (IOException e) {
-                e.printStackTrace();
-                errorMessageLabel.setText("Failed to load the main application screen.");
+            // Attempt to find a user matching either the username or email AND the password
+            Optional<UserModel> authenticatedUserOptional = userORM
+                    .find(user -> (usernameOrEmail.equalsIgnoreCase(user.getUsername())
+                            || usernameOrEmail.equalsIgnoreCase(user.getEmail())) &&
+                            password.equals(user.getPassword()) // WARNING: Comparing plain text passwords! Hash
+                                                                // passwords in production!
+                    ).stream().findFirst(); // Get the first matching user, if any
+
+            if (authenticatedUserOptional.isPresent()) {
+                // Authentication Successful
+                UserModel authenticatedUser = authenticatedUserOptional.get();
+                System.out.println("Login Successful for user: " + authenticatedUser.getUsername() + " with role: "
+                        + authenticatedUser.getRole());
+
+                // --- Navigate to the next screen (e.g., Dashboard) ---
+                try {
+                    App.setRoot(Pages.Dashboard); // Navigate to the Dashboard view
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    errorMessageLabel.setText("Failed to load the main application screen.");
+                    errorMessageLabel.setVisible(true);
+                }
+
+            } else {
+                // Authentication Failed
+                errorMessageLabel.setText("Invalid username/email or password.");
                 errorMessageLabel.setVisible(true);
+                System.out.println("Login Failed for username/email: " + usernameOrEmail);
             }
 
-        } else {
-            errorMessageLabel.setText("Invalid username or password.");
+        } catch (SimpleFileORM.ORMException e) {
+            // Handle potential ORM errors during the find operation
+            System.err.println("Error during user authentication lookup: " + e.getMessage());
+            e.printStackTrace();
+            errorMessageLabel.setText("An error occurred during authentication. Please try again.");
             errorMessageLabel.setVisible(true);
-            System.out.println("Login Failed for user: " + username);
+        } catch (Exception e) {
+            // Catch any other unexpected exceptions
+            System.err.println("An unexpected error occurred during login: " + e.getMessage());
+            e.printStackTrace();
+            errorMessageLabel.setText("An unexpected error occurred. Please try again.");
+            errorMessageLabel.setVisible(true);
+        }
+        // --- End of Authentication Logic ---
+    }
+
+    // Removed the toggleTheme method as the button is removed from the FXML
+    // @FXML
+    // private void toggleTheme(ActionEvent event) {
+    // App.toggleTheme();
+    // }
+
+    /**
+     * Handles the action for the "Sign Up" hyperlink.
+     * Navigates to the Signup view.
+     *
+     * @param event The ActionEvent triggered by the hyperlink click.
+     */
+    @FXML
+    private void handleSignUp(ActionEvent event) {
+        // Navigate to the Signup view
+        try {
+            App.setRoot(Pages.Signup);
+        } catch (IOException e) {
+            e.printStackTrace();
+            errorMessageLabel.setText("Failed to load the signup screen.");
+            errorMessageLabel.setVisible(true);
         }
     }
 
     /**
-     * Placeholder method for checking user credentials.
-     * In a real application, this would interact with a backend service or
-     * database.
-     * 
-     * @param username The entered username.
-     * @param password The entered password.
-     * @return true if credentials are valid, false otherwise.
-     */
-    private boolean checkCredentials(String username, String password) {
-        // !!! WARNING: Hardcoding credentials is NOT secure for production !!!
-        // This is purely a placeholder.
-        // Replace with secure authentication logic.
-        return "admin".equals(username) && "password".equals(password);
-    }
-
-    /**
-     * Handles the theme toggle button action.
-     * Calls the static method in the App class to switch themes.
-     * 
-     * @param event The ActionEvent triggered by the button click.
+     * Handles the action for the "Forgot Password?" hyperlink.
+     * Navigates to the Forgot Password view.
+     *
+     * @param event The ActionEvent triggered by the hyperlink click.
      */
     @FXML
-    private void toggleTheme(ActionEvent event) {
-        App.toggleTheme(); // Call the static method in your App class
+    private void handleForgotPassword(ActionEvent event) {
+        // Navigate to the ForgotPassword view
+        try {
+            App.setRoot(Pages.ForgotPassword);
+        } catch (IOException e) {
+            e.printStackTrace();
+            errorMessageLabel.setText("Failed to load the forgot password screen.");
+            errorMessageLabel.setVisible(true);
+        }
     }
-
-    // Optional: Add handlers for "Forgot Password" or "Sign Up" labels if they are
-    // interactive
-    // @FXML
-    // private void handleForgotPassword() {
-    // System.out.println("Forgot Password clicked");
-    // // Add logic to navigate to forgot password screen or show a dialog
-    // }
-
-    // @FXML
-    // private void handleSignUp() {
-    // System.out.println("Sign Up clicked");
-    // // Add logic to navigate to sign up screen
-    // }
 }

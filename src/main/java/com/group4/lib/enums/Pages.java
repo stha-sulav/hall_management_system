@@ -3,6 +3,7 @@ package com.group4.lib.enums;
 public enum Pages {
     Login("login"),
     Signup("signup"),
+    ForgotPassword("forgotPassword"),
     Dashboard("dashboard"),
     Student("student"),
     Hall("hall"),

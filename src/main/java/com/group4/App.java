@@ -18,14 +18,15 @@ import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 import com.group4.lib.enums.Pages;
 import com.group4.lib.enums.UserRole;
 import com.group4.lib.data.SimpleFileORM;
-import com.group4.model.User;
+import com.group4.model.UserModel;
 
 public class App extends Application {
 
     private static Scene mainScene;
     private static boolean isDarkMode = false;
 
-    private SimpleFileORM<User> userORM;
+    // Declare the ORM instance for UserModel entities
+    private SimpleFileORM<UserModel> userORM;
     private static final String USER_DATA_FILE = "user.txt";
 
     // Keep a static reference to the App instance for static methods to access
@@ -49,7 +50,9 @@ public class App extends Application {
                 .build()
                 .setGlobal();
 
+        // --- Initialize ORM and Create Default User ---
         try {
+            System.out.println("INFO: Starting ORM initialization and default user check.");
             // Determine the path for the user data file
             // Using a path relative to the application's working directory for simplicity.
             // This will create a 'data' folder next to your application's JAR or execution
@@ -58,30 +61,53 @@ public class App extends Application {
             // directory
             // or a platform-specific application data directory.
             String userDataPath = Paths.get("data", USER_DATA_FILE).toString(); // Creates path like ./data/user.txt
-            userORM = new SimpleFileORM<>(User.class, userDataPath);
+            System.out.println("INFO: User data file path: " + userDataPath);
 
+            userORM = new SimpleFileORM<>(UserModel.class, userDataPath); // Use UserModel
+
+            System.out.println("INFO: ORM initialized. Checking for existing admin user.");
             // Check if the default admin user already exists by username
-            Optional<User> adminUserOptional = userORM.find(user -> "admin".equals(user.getUsername()))
+            Optional<UserModel> adminUserOptional = userORM.find(user -> "admin".equals(user.getUsername())) // Use
+                                                                                                             // UserModel
+                                                                                                             // in
+                                                                                                             // predicate
                     .stream()
                     .findFirst();
 
             if (!adminUserOptional.isPresent()) {
+                System.out.println("INFO: Admin user not found. Attempting to create default admin user.");
                 // Create the default admin user if they don't exist
-                User adminUser = new User("admin", "admin@example.com", "admin", UserRole.Admin);
-                userORM.create(adminUser);
-                System.out.println("Default admin user created successfully.");
+                UserModel adminUser = new UserModel("admin", "admin@example.com", "admin", UserRole.Admin); // Use
+                                                                                                            // UserModel
+                System.out.println("INFO: Created new admin UserModel object.");
+
+                try {
+                    userORM.create(adminUser);
+                    System.out.println("INFO: Default admin user created successfully in file.");
+                } catch (SimpleFileORM.ORMException createException) {
+                    System.err.println("ERROR: Failed to create admin user in file: " + createException.getMessage());
+                    createException.printStackTrace();
+                }
+
+            } else {
+                System.out.println("INFO: Default admin user already exists. Skipping creation.");
+                // Optional: Log the existing admin user details (excluding password)
+                // System.out.println("Existing admin user: " +
+                // adminUserOptional.get().getUsername() + ", " +
+                // adminUserOptional.get().getEmail() + ", " +
+                // adminUserOptional.get().getRole());
             }
 
         } catch (SimpleFileORM.ORMException e) {
-            // Catch ORM-specific exceptions during initialization or creation
-            System.err.println("Error during ORM initialization or default user creation: " + e.getMessage());
+            // Catch ORM-specific exceptions during initialization or find operation
+            System.err.println("ERROR: An ORM error occurred during startup: " + e.getMessage());
             e.printStackTrace();
             // Depending on the severity, you might want to show an alert to the user
             // and potentially exit the application if data storage is critical.
             // For now, we'll just log the error.
         } catch (Exception e) {
             // Catch any other unexpected exceptions during this process
-            System.err.println("An unexpected error occurred during startup user creation: " + e.getMessage());
+            System.err.println("ERROR: An unexpected error occurred during startup ORM process: " + e.getMessage());
             e.printStackTrace();
         }
         // --- End of ORM Initialization ---
@@ -95,9 +121,10 @@ public class App extends Application {
         URL globalCssUrl = getClass().getResource("/com/group4/styles/global.css");
         if (globalCssUrl != null) {
             mainScene.getStylesheets().add(globalCssUrl.toExternalForm());
-            System.out.println("Successfully loaded global CSS from: " + globalCssUrl);
+            System.out.println("INFO: Successfully loaded global CSS from: " + globalCssUrl);
         } else {
-            System.err.println("Error loading global CSS file: /com/group4/styles/global.css not found on classpath.");
+            System.err.println(
+                    "WARNING: Error loading global CSS file: /com/group4/styles/global.css not found on classpath.");
         }
 
         // Apply initial theme class (e.g., "light") to the root of the scene
@@ -112,7 +139,7 @@ public class App extends Application {
 
     /**
      * Loads an FXML view and applies its corresponding CSS file.
-     * 
+     *
      * @param page The Pages enum value for the view to load.
      * @return The loaded Parent node for the view.
      * @throws IOException If the FXML or CSS file cannot be found or loaded.
@@ -142,9 +169,9 @@ public class App extends Application {
 
         if (cssUrl != null) {
             root.getStylesheets().add(cssUrl.toExternalForm());
-            System.out.println("Successfully loaded view CSS from: " + cssUrl);
+            System.out.println("INFO: Successfully loaded view CSS from: " + cssUrl);
         } else {
-            System.err.println("Warning: View CSS file not found: " + cssResourcePath + " on classpath.");
+            System.err.println("WARNING: View CSS file not found: " + cssResourcePath + " on classpath.");
             // It might be acceptable for a view to not have a dedicated CSS file
         }
         // --- End of view-specific CSS loading ---
@@ -162,7 +189,7 @@ public class App extends Application {
 
     /**
      * Switches the root of the main scene to a new view.
-     * 
+     *
      * @param page The Pages enum value for the view to switch to.
      * @throws IOException If the view cannot be loaded.
      */
@@ -181,7 +208,7 @@ public class App extends Application {
         currentRoot.getStyleClass().removeAll("light", "dark"); // Remove existing theme classes
         currentRoot.getStyleClass().add(isDarkMode ? "dark" : "light"); // Add the new theme class
 
-        System.out.println("Switched to " + (isDarkMode ? "Dark" : "Light") + " Theme");
+        System.out.println("INFO: Switched to " + (isDarkMode ? "Dark" : "Light") + " Theme");
 
         // You might want to save the theme preference here (e.g., to a config file)
     }
@@ -200,7 +227,7 @@ public class App extends Application {
     // This allows controllers/services to access the ORM
     // Consider creating a dedicated Service class for ORM interactions in a real
     // app
-    public static SimpleFileORM<User> getUserORM() {
+    public static SimpleFileORM<UserModel> getUserORM() { // Use UserModel
         // Check if the App instance has been initialized and the ORM is set
         if (instance != null && instance.userORM != null) {
             return instance.userORM;

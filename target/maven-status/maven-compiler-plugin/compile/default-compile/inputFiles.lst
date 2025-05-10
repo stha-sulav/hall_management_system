@@ -1,10 +1,13 @@
-D:\Java\JavaFx\hall_management_system\src\main\java\module-info.java
-D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\model\User.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\Launcher.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\controller\ForgotPasswordController.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\enums\Components.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\enums\UserRole.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\enums\Pages.java
-D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\data\SimpleFileORM.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\controller\LoginController.java
-D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\controller\MenuController.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\App.java
 D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\enums\Files.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\controller\SignupController.java
+D:\Java\JavaFx\hall_management_system\src\main\java\module-info.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\model\UserModel.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\lib\data\SimpleFileORM.java
+D:\Java\JavaFx\hall_management_system\src\main\java\com\group4\controller\MenuController.java

@@ -1,12 +1,7 @@
 package com.group4.lib.enums;
 
 public enum Components {
-    Menu("menu"),
-    Dashboard("dashboard"),
-    Student("student"),
-    Hall("hall"),
-    Room("room"),
-    Setting("setting");
+    Menu("menu");
 
     private String component;
 

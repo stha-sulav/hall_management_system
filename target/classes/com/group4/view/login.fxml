@@ -6,54 +6,49 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.StackPane?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.Hyperlink?> <?import org.kordamp.ikonli.javafx.FontIcon?> <StackPane alignment="CENTER" prefHeight="600.0" prefWidth="800.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group4.controller.LoginController">
+<children>
+    <VBox alignment="CENTER" maxWidth="400.0" maxHeight="450.0" styleClass="login-card">
+        <children>
+            <Label styleClass="title-label" text="Hall Management Login"> </Label>
 
-<StackPane alignment="CENTER" prefHeight="600.0" prefWidth="800.0" styleClass="root" xmlns="http://javafx.com/javafx/17.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group4.controller.LoginController">
- <children>
-   <VBox alignment="CENTER" maxWidth="400.0" maxHeight="450.0" styleClass="login-card"> <children>
-      <Label styleClass="title-label" text="Hall Management Login"> </Label>
+            <MFXTextField fx:id="usernameField" floatMode="BORDER" promptText="Username or Email" maxWidth="Infinity">
+                <VBox.margin>
+                    <Insets bottom="15.0" left="10.0" right="10.0" /> </VBox.margin>
+            </MFXTextField>
 
-      <MFXTextField fx:id="usernameField" floatMode="BORDER" promptText="Username or Email" maxWidth="Infinity">
-       <VBox.margin>
-         <Insets bottom="15.0" left="10.0" right="10.0" /> </VBox.margin>
-       </MFXTextField>
+            <MFXPasswordField fx:id="passwordField" floatMode="BORDER" promptText="Password" maxWidth="Infinity">
+                <VBox.margin>
+                    <Insets bottom="20.0" left="10.0" right="10.0" /> </VBox.margin>
+            </MFXPasswordField>
 
-      <MFXPasswordField fx:id="passwordField" floatMode="BORDER" promptText="Password" maxWidth="Infinity">
-       <VBox.margin>
-         <Insets bottom="20.0" left="10.0" right="10.0" /> </VBox.margin>
-        </MFXPasswordField>
+            <Label fx:id="errorMessageLabel" alignment="CENTER" maxWidth="Infinity" textFill="RED" wrapText="true" styleClass="error-message-label">
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" /> </VBox.margin>
+            </Label>
 
-      <Label fx:id="errorMessageLabel" alignment="CENTER" maxWidth="Infinity" textFill="RED" wrapText="true" styleClass="error-message-label"> <VBox.margin>
-         <Insets bottom="10.0" left="10.0" right="10.0" /> </VBox.margin>
-       </Label>
+            <MFXButton fx:id="loginButton" onAction="#handleLogin" text="Login" maxWidth="Infinity" styleClass="mfx-button">
+                <VBox.margin>
+                    <Insets bottom="10.0" top="10.0" left="10.0" right="10.0" /> </VBox.margin>
+            </MFXButton>
 
-      <MFXButton fx:id="loginButton" onAction="#handleLogin" text="Login" maxWidth="Infinity" styleClass="mfx-button"> <VBox.margin>
-         <Insets bottom="10.0" top="10.0" left="10.0" right="10.0" /> </VBox.margin>
-       </MFXButton>
+            <Hyperlink fx:id="forgotPasswordButton" onAction="#handleForgotPassword" text="Forgot Password?" styleClass="link-label">
+                <VBox.margin>
+                    <Insets top="10.0"/>
+                </VBox.margin>
+            </Hyperlink>
 
-      <MFXButton onAction="#toggleTheme" text="Toggle Theme" styleClass="theme-toggle-button">
-        <VBox.margin>
-          <Insets top="10.0"/>
-        </VBox.margin>
-      </MFXButton>
+            <Hyperlink fx:id="signupButton" onAction="#handleSignUp" text="Don't have an account? Sign Up" styleClass="link-label">
+                <VBox.margin>
+                    <Insets top="5.0"/>
+                </VBox.margin>
+            </Hyperlink>
 
-      <Label text="Forgot Password?" styleClass="link-label">
-        <VBox.margin>
-          <Insets top="10.0"/>
-        </VBox.margin>
-      </Label>
-      <Label text="Don't have an account? Sign Up" styleClass="link-label">
-        <VBox.margin>
-          <Insets top="5.0"/>
-        </VBox.margin>
-      </Label>
-
-    </children>
-    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   </VBox>
- </children>
+        </children>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </VBox>
+</children>
 </StackPane>
