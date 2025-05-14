@@ -1,2 +1,3 @@
-id,password,role,username,email
-1,admin,Admin,admin,admin@example.com
+id,password,role,username,email,firstname,lastname,photo,phoneNumber,address
+1,admin,Admin,admin,admin@example.com,,,,,
+2,ram123,Customer,ram123,ram@example.com,Ram,Sharma,,123456789,Nepal

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox fx:id="drawer" styleClass="drawer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group4.controller.DrawerController">
+    <children>
+        <Label text="Hall Management System" styleClass="drawer-title">
+            <VBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <ToggleButton fx:id="dashboardButton" styleClass="drawer-button" onAction="#handleDashboard">
+            <graphic>
+                <FontIcon iconLiteral="fas-home" iconSize="24"/>
+            </graphic>
+            <VBox.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </VBox.margin>
+            Dashboard
+        </ToggleButton>
+        <ToggleButton fx:id="studentsButton" styleClass="drawer-button" onAction="#handleStudents">
+            <graphic>
+                <FontIcon iconLiteral="fas-user-graduate" iconSize="24"/>
+            </graphic>
+            <VBox.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </VBox.margin>
+            Students
+        </ToggleButton>
+        <ToggleButton fx:id="roomsButton" styleClass="drawer-button" onAction="#handleRooms">
+            <graphic>
+                <FontIcon iconLiteral="fas-door-open" iconSize="24"/>
+            </graphic>
+            <VBox.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </VBox.margin>
+            Rooms
+        </ToggleButton>
+        <ToggleButton fx:id="settingsButton" styleClass="drawer-button" onAction="#handleSettings">
+            <graphic>
+                <FontIcon iconLiteral="fas-cog" iconSize="24"/>
+            </graphic>
+            <VBox.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </VBox.margin>
+            Settings
+        </ToggleButton>
+        <ToggleButton fx:id="logoutButton" styleClass="drawer-button" onAction="#handleLogout">
+            <graphic>
+                <FontIcon iconLiteral="fas-sign-out-alt" iconSize="24"/>
+            </graphic>
+            <VBox.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </VBox.margin>
+            Logout
+        </ToggleButton>
+    </children>
+</VBox>

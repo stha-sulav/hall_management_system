@@ -1,4 +1,6 @@
+com\group4\controller\DrawerController.class
 com\group4\lib\data\SimpleFileORM$EntityMetadata.class
+com\group4\service\AuthService.class
 com\group4\lib\enums\Components.class
 com\group4\lib\enums\Files.class
 com\group4\lib\enums\Pages.class
@@ -16,3 +18,4 @@ com\group4\Launcher.class
 com\group4\lib\data\SimpleFileORM$Entity.class
 com\group4\lib\enums\UserRole.class
 com\group4\controller\LoginController.class
+com\group4\service\UserService.class

@@ -1,0 +1,29 @@
+.drawer {
+  -fx-background-color: #f0f0f0;
+  -fx-padding: 10px;
+  -fx-pref-width: 250px;
+}
+
+.drawer-title {
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333;
+}
+
+.drawer-button {
+  -fx-background-color: transparent;
+  -fx-border-width: 0;
+  -fx-padding: 5px;
+  -fx-font-size: 14px;
+  -fx-text-fill: #555;
+  -fx-pref-width: 180px;
+}
+
+.drawer-button:hover {
+  -fx-background-color: #ddd;
+}
+
+.drawer-button:selected {
+  -fx-background-color: #007bff;
+  -fx-text-fill: white;
+}

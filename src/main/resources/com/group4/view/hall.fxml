@@ -10,7 +10,7 @@
     <children>
         <VBox alignment="CENTER">
             <children>
-                <Label text="Dashboard"/>
+                <Label text="Hall Page"/>
             </children>
         </VBox>
     </children>

@@ -2,6 +2,7 @@ package com.group4.controller;
 
 import com.group4.App;
 import com.group4.lib.enums.Pages;
+import com.group4.service.AuthService; // Import AuthService
 
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -38,7 +39,28 @@ public class SignupController {
     private MFXButton signupButton;
 
     @FXML
-    private Hyperlink backToLoginLink; // Link to go back to login
+    private Hyperlink backToLoginLink;
+
+    @FXML
+    private MFXTextField firstnameField;
+
+    @FXML
+    private MFXTextField lastnameField;
+
+    @FXML
+    private MFXTextField photoField;
+
+    @FXML
+    private MFXTextField phoneNumberField;
+
+    @FXML
+    private MFXTextField addressField;
+
+    private AuthService authService;
+
+    public void initialize() {
+        this.authService = new AuthService(App.getUserService());
+    }
 
     /**
      * Handles the action for the Sign Up button.
@@ -48,18 +70,10 @@ public class SignupController {
      */
     @FXML
     private void handleSignup(ActionEvent event) {
-        // TODO: Implement user signup logic (validation, create UserModel, persist
-        // using ORM)
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-
-        // Basic logging for now
-        System.out.println("Sign Up attempted with:");
-        System.out.println("Username: " + username);
-        System.out.println("Email: " + email);
-        System.out.println("Password: " + password); // WARNING: Don't log passwords in production!
 
         // Clear previous error message
         errorMessageLabel.setText("");
@@ -78,18 +92,35 @@ public class SignupController {
             return;
         }
 
-        // TODO: Add more validation (e.g., email format, username uniqueness, password
-        // complexity)
-        // TODO: Hash the password before creating and persisting the UserModel
+        String firstname = firstnameField.getText().trim();
+        String lastname = lastnameField.getText().trim();
+        String photo = photoField.getText().trim();
+        String phoneNumber = phoneNumberField.getText().trim();
+        String address = addressField.getText().trim();
 
-        System.out.println("Basic validation passed. Proceeding with signup logic...");
+        // --- Signup Logic using AuthService ---
+        boolean isSignedUp = authService.signup(username, email, password, firstname, lastname, photo, phoneNumber,
+                address);
 
-        // After successful signup logic, you would typically navigate to another page,
-        // e.g., login or dashboard
-        // For now, we'll just log and stay on the page or navigate back to login as a
-        // placeholder
-        // handleBackToLogin(null); // Example: navigate back to login after simulated
-        // signup attempt
+        if (isSignedUp) {
+            // Signup Successful
+            System.out.println("Signup Successful for user: " + username);
+
+            try {
+                App.setRoot(Pages.Login);
+            } catch (IOException e) {
+                e.printStackTrace();
+                errorMessageLabel.setText("Failed to load the login screen.");
+                errorMessageLabel.setVisible(true);
+            }
+
+        } else {
+            // Signup Failed
+            errorMessageLabel.setText("Signup failed. Please try again.");
+            errorMessageLabel.setVisible(true);
+            System.out.println("Signup Failed for username: " + username);
+        }
+        // --- End of Signup Logic ---
     }
 
     /**

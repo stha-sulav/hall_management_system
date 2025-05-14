@@ -8,7 +8,8 @@ public enum Pages {
     Student("student"),
     Hall("hall"),
     Room("room"),
-    Setting("setting");
+    Setting("setting"),
+    Menu("menu");
 
     private String view;
 

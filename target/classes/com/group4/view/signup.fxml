@@ -39,9 +39,39 @@
 
             <MFXPasswordField fx:id="confirmPasswordField" floatMode="BORDER" promptText="Confirm Password" maxWidth="Infinity">
                <VBox.margin>
-                  <Insets bottom="15.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
             </MFXPasswordField>
+
+            <MFXTextField fx:id="firstnameField" floatMode="BORDER" promptText="First Name" maxWidth="Infinity">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </MFXTextField>
+
+            <MFXTextField fx:id="lastnameField" floatMode="BORDER" promptText="Last Name" maxWidth="Infinity">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </MFXTextField>
+
+            <MFXTextField fx:id="photoField" floatMode="BORDER" promptText="Photo URL" maxWidth="Infinity">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </MFXTextField>
+
+            <MFXTextField fx:id="phoneNumberField" floatMode="BORDER" promptText="Phone Number" maxWidth="Infinity">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </MFXTextField>
+
+            <MFXTextField fx:id="addressField" floatMode="BORDER" promptText="Address" maxWidth="Infinity">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </MFXTextField>
 
             <Label fx:id="errorMessageLabel" alignment="CENTER" maxWidth="Infinity" textFill="RED" wrapText="true" styleClass="error-message-label">
                <VBox.margin>

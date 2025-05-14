@@ -24,6 +24,21 @@ public class UserModel {
 
     @SimpleFileORM.Column(name = "email")
     private String email;
+
+    @SimpleFileORM.Column(name = "firstname")
+    private String firstname;
+
+    @SimpleFileORM.Column(name = "lastname")
+    private String lastname;
+
+    @SimpleFileORM.Column(name = "photo")
+    private String photo;
+
+    @SimpleFileORM.Column(name = "phoneNumber")
+    private String phoneNumber;
+
+    @SimpleFileORM.Column(name = "address")
+    private String address;
     // -----------------------------------------------------------------------------
 
     // SimpleFileORM requires a public no-argument constructor for deserialization
@@ -45,6 +60,20 @@ public class UserModel {
         this.password = password;
         this.role = role; // Assign the specified role
     }
+
+    public UserModel(String username, String email, String password, UserRole role, String firstname, String lastname,
+            String photo, String phoneNumber, String address) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.photo = photo;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     // ------------------------------------------------------
 
     // Getters and Setters for all fields (required by SimpleFileORM for reflection)
@@ -89,6 +118,46 @@ public class UserModel {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
     // ----------------------------------------------
 

@@ -19,15 +19,22 @@ import com.group4.lib.enums.Pages;
 import com.group4.lib.enums.UserRole;
 import com.group4.lib.data.SimpleFileORM;
 import com.group4.model.UserModel;
+import com.group4.service.UserService;
+import com.group4.service.AuthService; // Import AuthService
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class App extends Application {
 
     private static Scene mainScene;
     private static boolean isDarkMode = false;
+    private static UserRole currentUserRole = null;
 
     // Declare the ORM instance for UserModel entities
     private SimpleFileORM<UserModel> userORM;
     private static final String USER_DATA_FILE = "user.txt";
+    private UserService userService; // Add UserService
+    private AuthService authService;
 
     // Keep a static reference to the App instance for static methods to access
     // non-static members
@@ -65,20 +72,38 @@ public class App extends Application {
 
             userORM = new SimpleFileORM<>(UserModel.class, userDataPath); // Use UserModel
 
+        } catch (SimpleFileORM.ORMException e) {
+            // Catch ORM-specific exceptions during initialization or find operation
+            System.err.println("ERROR: An ORM error occurred during startup: " + e.getMessage());
+            e.printStackTrace();
+            // Depending on the severity, you might want to show an alert to the user
+            // and potentially exit the application if data storage is critical.
+            // For now, we'll just log the error.
+        } catch (Exception e) {
+            // Catch any other unexpected exceptions during this process
+            System.err.println("ERROR: An unexpected error occurred during startup ORM process: " + e.getMessage());
+            e.printStackTrace();
+        }
+        // --- End of ORM Initialization ---
+
+        initializeServices();
+
+        try {
             System.out.println("INFO: ORM initialized. Checking for existing admin user.");
             // Check if the default admin user already exists by username
             Optional<UserModel> adminUserOptional = userORM.find(user -> "admin".equals(user.getUsername())) // Use
-                                                                                                             // UserModel
-                                                                                                             // in
-                                                                                                             // predicate
+                    // UserModel
+                    // in
+                    // predicate
                     .stream()
                     .findFirst();
 
             if (!adminUserOptional.isPresent()) {
                 System.out.println("INFO: Admin user not found. Attempting to create default admin user.");
                 // Create the default admin user if they don't exist
-                UserModel adminUser = new UserModel("admin", "admin@example.com", "admin", UserRole.Admin); // Use
-                                                                                                            // UserModel
+                UserModel adminUser = new UserModel("admin", "admin@example.com", "admin", UserRole.Admin, "", "", "",
+                        "", ""); // Use
+                // UserModel
                 System.out.println("INFO: Created new admin UserModel object.");
 
                 try {
@@ -110,7 +135,6 @@ public class App extends Application {
             System.err.println("ERROR: An unexpected error occurred during startup ORM process: " + e.getMessage());
             e.printStackTrace();
         }
-        // --- End of ORM Initialization ---
 
         // Load the initial view (Login) using the updated loadView method
         Parent initialRoot = loadView(Pages.Login);
@@ -160,6 +184,27 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
         Parent root = fxmlLoader.load();
 
+        // Load the drawer menu if the page is not Login or Signup
+        if (page != Pages.Login && page != Pages.Signup) {
+            // Load the main content
+            HBox mainContent = new HBox();
+            FXMLLoader drawerLoader = new FXMLLoader(App.class.getResource("/com/group4/view/drawer.fxml"));
+            VBox drawer = drawerLoader.load();
+
+            // Load the CSS for the drawer
+            URL drawerCssUrl = App.class.getResource("/com/group4/styles/drawer.css");
+            if (drawerCssUrl != null) {
+                drawer.getStylesheets().add(drawerCssUrl.toExternalForm());
+                System.out.println("INFO: Successfully loaded drawer CSS from: " + drawerCssUrl);
+            } else {
+                System.err.println("WARNING: Drawer CSS file not found: /com/group4/styles/drawer.css on classpath.");
+            }
+
+            // Add the drawer and the loaded root to the HBox
+            mainContent.getChildren().addAll(drawer, root);
+            root = mainContent;
+        }
+
         // --- Load the view-specific CSS file ---
         // Assuming CSS filenames match FXML filenames (lowercase)
         String cssFileName = fxmlFileName.toLowerCase();
@@ -194,6 +239,9 @@ public class App extends Application {
      * @throws IOException If the view cannot be loaded.
      */
     public static void setRoot(Pages page) throws IOException {
+        if (currentUserRole == UserRole.Customer && page == Pages.Dashboard) {
+            page = Pages.Hall; // Redirect customers to Hall
+        }
         Parent newRoot = loadView(page);
         mainScene.setRoot(newRoot);
         // The theme class is already applied in loadView
@@ -235,6 +283,23 @@ public class App extends Application {
             // This should not happen if accessed after App.start() completes
             throw new IllegalStateException("User ORM has not been initialized. Access ORM after App.start().");
         }
+    }
+
+    public static UserService getUserService() {
+        return instance != null ? instance.userService : null;
+    }
+
+    public static void setCurrentUserRole(UserRole role) {
+        currentUserRole = role;
+    }
+
+    public static UserRole getCurrentUserRole() {
+        return currentUserRole;
+    }
+
+    private void initializeServices() {
+        userService = new UserService();
+        authService = new AuthService(userService);
     }
 
     public static void main(String[] args) {
