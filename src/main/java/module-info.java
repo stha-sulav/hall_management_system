@@ -16,6 +16,7 @@ module com.group4 { // Ensure this module name matches the one in your error tra
     exports com.group4.lib.enums;
     exports com.group4.lib.data; // Export the ORM package
     exports com.group4.model; // Export the model package
+    exports com.group4.service;
 
     // Open packages containing FXML files and controllers to javafx.fxml
     opens com.group4 to javafx.fxml; // If your main App class has FXML references

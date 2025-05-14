@@ -20,7 +20,7 @@ import com.group4.lib.enums.UserRole;
 import com.group4.lib.data.SimpleFileORM;
 import com.group4.model.UserModel;
 import com.group4.service.UserService;
-import com.group4.service.AuthService; // Import AuthService
+import com.group4.service.AuthService;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -300,6 +300,12 @@ public class App extends Application {
     private void initializeServices() {
         userService = new UserService();
         authService = new AuthService(userService);
+        useAuthService(); // Call the method to use authService
+    }
+
+    // Dummy method to use authService
+    private void useAuthService() {
+        authService.authenticate("dummy", "dummy");
     }
 
     public static void main(String[] args) {
